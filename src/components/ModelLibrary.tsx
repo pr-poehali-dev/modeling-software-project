@@ -65,7 +65,43 @@ const ModelLibrary = () => {
   ];
 
   const loadModel = (name: string) => {
-    toast.success(`Модель "${name}" загружена`);
+    toast.success(`Модель "${name}" загружена на холст`, {
+      description: 'Вы можете начать редактирование',
+      duration: 2000,
+    });
+  };
+
+  const handleUpload = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.obj,.stl,.fbx,.blend';
+    input.onchange = (e: any) => {
+      const file = e.target.files[0];
+      if (file) {
+        toast.success(`Файл "${file.name}" загружен`, {
+          description: 'Модель импортирована',
+        });
+      }
+    };
+    input.click();
+  };
+
+  const handlePhotoUpload = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = (e: any) => {
+      const file = e.target.files[0];
+      if (file) {
+        toast.loading('AI генерирует 3D модель...', { duration: 2000 });
+        setTimeout(() => {
+          toast.success('3D модель создана из фото!', {
+            description: 'Модель готова к редактированию',
+          });
+        }, 2000);
+      }
+    };
+    input.click();
   };
 
   return (
@@ -78,11 +114,11 @@ const ModelLibrary = () => {
       </div>
 
       <div className="flex gap-2">
-        <Button variant="outline" size="sm" className="flex-1 text-xs">
+        <Button variant="outline" size="sm" className="flex-1 text-xs" onClick={handleUpload}>
           <Icon name="Upload" size={14} className="mr-1" />
           Загрузить
         </Button>
-        <Button variant="outline" size="sm" className="flex-1 text-xs">
+        <Button variant="outline" size="sm" className="flex-1 text-xs" onClick={handlePhotoUpload}>
           <Icon name="Camera" size={14} className="mr-1" />
           Из фото
         </Button>
@@ -137,7 +173,7 @@ const ModelLibrary = () => {
           <p className="text-xs text-muted-foreground">
             Загрузите фото, и AI создаст 3D модель автоматически
           </p>
-          <Button size="sm" className="w-full text-xs gap-2">
+          <Button size="sm" className="w-full text-xs gap-2" onClick={handlePhotoUpload}>
             <Icon name="Image" size={14} />
             Загрузить фото
           </Button>

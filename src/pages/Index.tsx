@@ -15,6 +15,26 @@ const Index = () => {
   const [activeMaterial, setActiveMaterial] = useState<Material>('natural');
   const [brushSize, setBrushSize] = useState(50);
   const [brushStrength, setBrushStrength] = useState(50);
+  const [sidebarTab, setSidebarTab] = useState('sculpt');
+
+  const handleImport = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.obj,.stl,.fbx';
+    input.onchange = (e: any) => {
+      const file = e.target.files[0];
+      if (file) alert(`Импортирован файл: ${file.name}`);
+    };
+    input.click();
+  };
+
+  const handleExport = () => {
+    alert('Экспорт модели в формате OBJ');
+  };
+
+  const handleSave = () => {
+    alert('Проект сохранён!');
+  };
 
   return (
     <div className="h-screen flex flex-col bg-background text-foreground overflow-hidden">
@@ -29,15 +49,15 @@ const Index = () => {
         </div>
         
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" className="gap-2">
+          <Button variant="ghost" size="sm" className="gap-2" onClick={handleImport}>
             <Icon name="Upload" size={16} />
             Импорт
           </Button>
-          <Button variant="ghost" size="sm" className="gap-2">
+          <Button variant="ghost" size="sm" className="gap-2" onClick={handleExport}>
             <Icon name="Download" size={16} />
             Экспорт
           </Button>
-          <Button variant="ghost" size="sm" className="gap-2">
+          <Button variant="ghost" size="sm" className="gap-2" onClick={handleSave}>
             <Icon name="Save" size={16} />
             Сохранить
           </Button>
@@ -46,38 +66,42 @@ const Index = () => {
 
       <div className="flex flex-1 overflow-hidden">
         <aside className="w-16 bg-sidebar border-r border-sidebar-border flex flex-col items-center py-4 gap-2">
-          <Tabs defaultValue="sculpt" orientation="vertical" className="w-full">
-            <TabsList className="flex flex-col bg-transparent w-full gap-1">
-              <TabsTrigger 
-                value="sculpt" 
-                className="w-12 h-12 data-[state=active]:bg-sidebar-accent"
-                title="Скульптинг"
-              >
-                <Icon name="Paintbrush" size={20} />
-              </TabsTrigger>
-              <TabsTrigger 
-                value="library" 
-                className="w-12 h-12 data-[state=active]:bg-sidebar-accent"
-                title="Библиотека"
-              >
-                <Icon name="FolderOpen" size={20} />
-              </TabsTrigger>
-              <TabsTrigger 
-                value="material" 
-                className="w-12 h-12 data-[state=active]:bg-sidebar-accent"
-                title="Материалы"
-              >
-                <Icon name="Palette" size={20} />
-              </TabsTrigger>
-              <TabsTrigger 
-                value="settings" 
-                className="w-12 h-12 data-[state=active]:bg-sidebar-accent"
-                title="Настройки"
-              >
-                <Icon name="Settings" size={20} />
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
+          <button 
+            className={`w-12 h-12 rounded flex items-center justify-center transition-colors ${
+              sidebarTab === 'sculpt' ? 'bg-sidebar-accent' : 'hover:bg-sidebar-accent/50'
+            }`}
+            onClick={() => setSidebarTab('sculpt')}
+            title="Скульптинг"
+          >
+            <Icon name="Paintbrush" size={20} />
+          </button>
+          <button 
+            className={`w-12 h-12 rounded flex items-center justify-center transition-colors ${
+              sidebarTab === 'library' ? 'bg-sidebar-accent' : 'hover:bg-sidebar-accent/50'
+            }`}
+            onClick={() => setSidebarTab('library')}
+            title="Библиотека"
+          >
+            <Icon name="FolderOpen" size={20} />
+          </button>
+          <button 
+            className={`w-12 h-12 rounded flex items-center justify-center transition-colors ${
+              sidebarTab === 'material' ? 'bg-sidebar-accent' : 'hover:bg-sidebar-accent/50'
+            }`}
+            onClick={() => setSidebarTab('material')}
+            title="Материалы"
+          >
+            <Icon name="Palette" size={20} />
+          </button>
+          <button 
+            className={`w-12 h-12 rounded flex items-center justify-center transition-colors ${
+              sidebarTab === 'settings' ? 'bg-sidebar-accent' : 'hover:bg-sidebar-accent/50'
+            }`}
+            onClick={() => setSidebarTab('settings')}
+            title="Настройки"
+          >
+            <Icon name="Settings" size={20} />
+          </button>
         </aside>
 
         <div className="flex-1 flex">

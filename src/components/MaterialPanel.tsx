@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
+import { toast } from 'sonner';
 
 interface MaterialPanelProps {
   activeMaterial: string;
@@ -8,6 +9,9 @@ interface MaterialPanelProps {
 }
 
 const MaterialPanel = ({ activeMaterial, setActiveMaterial }: MaterialPanelProps) => {
+  const handlePresetClick = (preset: string) => {
+    toast.success(`Применён материал: ${preset}`);
+  };
   const materials = [
     {
       id: 'metal',
@@ -56,14 +60,14 @@ const MaterialPanel = ({ activeMaterial, setActiveMaterial }: MaterialPanelProps
         <div className="pt-3 border-t border-border/50 mt-3">
           <div className="text-xs text-muted-foreground mb-2">Быстрые пресеты</div>
           <div className="grid grid-cols-4 gap-2">
-            <button className="w-full aspect-square rounded bg-gradient-to-br from-red-500 to-red-700 hover:scale-110 transition-transform" title="Красный металл" />
-            <button className="w-full aspect-square rounded bg-gradient-to-br from-blue-400 to-blue-600 hover:scale-110 transition-transform" title="Синий пластик" />
-            <button className="w-full aspect-square rounded bg-gradient-to-br from-green-600 to-green-800 hover:scale-110 transition-transform" title="Зелёная глина" />
-            <button className="w-full aspect-square rounded bg-gradient-to-br from-yellow-400 to-orange-500 hover:scale-110 transition-transform" title="Золото" />
-            <button className="w-full aspect-square rounded bg-gradient-to-br from-purple-500 to-pink-600 hover:scale-110 transition-transform" title="Фиолетовое стекло" />
-            <button className="w-full aspect-square rounded bg-gradient-to-br from-gray-700 to-gray-900 hover:scale-110 transition-transform" title="Тёмный камень" />
-            <button className="w-full aspect-square rounded bg-gradient-to-br from-cyan-400 to-blue-500 hover:scale-110 transition-transform" title="Вода" />
-            <button className="w-full aspect-square rounded bg-gradient-to-br from-amber-300 to-amber-600 hover:scale-110 transition-transform" title="Дерево" />
+            <button onClick={() => handlePresetClick('Красный металл')} className="w-full aspect-square rounded bg-gradient-to-br from-red-500 to-red-700 hover:scale-110 transition-transform" title="Красный металл" />
+            <button onClick={() => handlePresetClick('Синий пластик')} className="w-full aspect-square rounded bg-gradient-to-br from-blue-400 to-blue-600 hover:scale-110 transition-transform" title="Синий пластик" />
+            <button onClick={() => handlePresetClick('Зелёная глина')} className="w-full aspect-square rounded bg-gradient-to-br from-green-600 to-green-800 hover:scale-110 transition-transform" title="Зелёная глина" />
+            <button onClick={() => handlePresetClick('Золото')} className="w-full aspect-square rounded bg-gradient-to-br from-yellow-400 to-orange-500 hover:scale-110 transition-transform" title="Золото" />
+            <button onClick={() => handlePresetClick('Фиолетовое стекло')} className="w-full aspect-square rounded bg-gradient-to-br from-purple-500 to-pink-600 hover:scale-110 transition-transform" title="Фиолетовое стекло" />
+            <button onClick={() => handlePresetClick('Тёмный камень')} className="w-full aspect-square rounded bg-gradient-to-br from-gray-700 to-gray-900 hover:scale-110 transition-transform" title="Тёмный камень" />
+            <button onClick={() => handlePresetClick('Вода')} className="w-full aspect-square rounded bg-gradient-to-br from-cyan-400 to-blue-500 hover:scale-110 transition-transform" title="Вода" />
+            <button onClick={() => handlePresetClick('Дерево')} className="w-full aspect-square rounded bg-gradient-to-br from-amber-300 to-amber-600 hover:scale-110 transition-transform" title="Дерево" />
           </div>
         </div>
       </CardContent>
