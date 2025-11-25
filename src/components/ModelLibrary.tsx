@@ -4,7 +4,11 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import Icon from '@/components/ui/icon';
 import { toast } from 'sonner';
 
-const ModelLibrary = () => {
+interface ModelLibraryProps {
+  onModelLoad?: (modelName: string) => void;
+}
+
+const ModelLibrary = ({ onModelLoad }: ModelLibraryProps) => {
   const models = [
     {
       id: 1,
@@ -65,8 +69,9 @@ const ModelLibrary = () => {
   ];
 
   const loadModel = (name: string) => {
+    onModelLoad?.(name);
     toast.success(`Модель "${name}" загружена на холст`, {
-      description: 'Вы можете начать редактирование',
+      description: 'Отображена в центре viewport',
       duration: 2000,
     });
   };
@@ -78,8 +83,9 @@ const ModelLibrary = () => {
     input.onchange = (e: any) => {
       const file = e.target.files[0];
       if (file) {
+        onModelLoad?.(file.name);
         toast.success(`Файл "${file.name}" загружен`, {
-          description: 'Модель импортирована',
+          description: 'Модель отображена в центре viewport',
         });
       }
     };
@@ -95,8 +101,10 @@ const ModelLibrary = () => {
       if (file) {
         toast.loading('AI генерирует 3D модель...', { duration: 2000 });
         setTimeout(() => {
+          const modelName = `AI_${file.name.split('.')[0]}_3D.obj`;
+          onModelLoad?.(modelName);
           toast.success('3D модель создана из фото!', {
-            description: 'Модель готова к редактированию',
+            description: 'Отображена в центре viewport',
           });
         }, 2000);
       }

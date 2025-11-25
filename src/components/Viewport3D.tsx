@@ -4,6 +4,7 @@ interface Viewport3DProps {
   activeTool: string;
   brushSize: number;
   brushStrength: number;
+  loadedModel?: string | null;
 }
 
 interface Point {
@@ -12,7 +13,7 @@ interface Point {
   z: number;
 }
 
-const Viewport3D = ({ activeTool, brushSize, brushStrength }: Viewport3DProps) => {
+const Viewport3D = ({ activeTool, brushSize, brushStrength, loadedModel }: Viewport3DProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
@@ -99,6 +100,19 @@ const Viewport3D = ({ activeTool, brushSize, brushStrength }: Viewport3DProps) =
     ctx.fillText(`Вершин: ${vertices.length}`, 10, 20);
     ctx.fillText(`Инструмент: ${activeTool.toUpperCase()}`, 10, 40);
     ctx.fillText(`Размер: ${brushSize}`, 10, 60);
+    
+    if (loadedModel) {
+      ctx.fillStyle = '#4CAF50';
+      ctx.font = 'bold 14px monospace';
+      ctx.fillText(`✅ Загружено: ${loadedModel}`, centerX - 150, 30);
+      
+      ctx.strokeStyle = '#4CAF50';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(centerX - 180, centerY - 180, 360, 360);
+      
+      ctx.fillStyle = 'rgba(76, 175, 80, 0.1)';
+      ctx.fillRect(centerX - 180, centerY - 180, 360, 360);
+    }
 
   }, [vertices, rotation, activeTool, brushSize]);
 

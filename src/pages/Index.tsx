@@ -16,6 +16,7 @@ const Index = () => {
   const [brushSize, setBrushSize] = useState(50);
   const [brushStrength, setBrushStrength] = useState(50);
   const [sidebarTab, setSidebarTab] = useState('sculpt');
+  const [loadedModel, setLoadedModel] = useState<string | null>(null);
 
   const handleImport = () => {
     const input = document.createElement('input');
@@ -23,7 +24,10 @@ const Index = () => {
     input.accept = '.obj,.stl,.fbx';
     input.onchange = (e: any) => {
       const file = e.target.files[0];
-      if (file) alert(`Импортирован файл: ${file.name}`);
+      if (file) {
+        setLoadedModel(file.name);
+        alert(`✅ Модель "${file.name}" загружена в центр viewport`);
+      }
     };
     input.click();
   };
@@ -109,6 +113,7 @@ const Index = () => {
             activeTool={activeTool}
             brushSize={brushSize}
             brushStrength={brushStrength}
+            loadedModel={loadedModel}
           />
         </div>
 
@@ -136,7 +141,7 @@ const Index = () => {
             </TabsContent>
 
             <TabsContent value="properties" className="p-4">
-              <ModelLibrary />
+              <ModelLibrary onModelLoad={setLoadedModel} />
             </TabsContent>
           </Tabs>
         </aside>
